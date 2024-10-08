@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="22632501_LeThiBaoUyen_Tuần07" content="btap tuan 07" />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <style>
+      img {
+        width: 100px;
+        height: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <img
+            src="../images/banner_car.jpg"
+            alt="Banner"
+            style="width: 100%"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4">
+          <table class="table table-bordered">
+            <thead>
+              <th colspan="2" class="text-center">Bảng tin thị trường</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="2" class="text-center">Vàng</td>
+              </tr>
+              <tr>
+                <td class="text-center" id="vangMuaVao">...</td>
+                <td class="text-center" id="vangBanRa">...</td>
+              </tr>
+              <tr>
+                <td colspan="2">USD</td>
+              </tr>
+              <tr>
+                <td class="text-center" id="usdMuaVao">...</td>
+                <td class="text-center" id="usdBanRa">...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="col-4">
+          <table class="table table-bordered">
+            <thead>
+              <th colspan="2" class="text-center">
+                Cập nhập giá cả thị trường
+              </th>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-center">Mua vào</td>
+                <td><input type="number" id="muaVao" /></td>
+              </tr>
+              <tr>
+                <td class="text-center">Bán ra</td>
+                <td><input type="number" id="banRa" /></td>
+              </tr>
+              <tr>
+                <td class="text-center">Loại xe</td>
+                <td>
+                  <select name="type" id="loaiXe">
+                    <option value="0" data-img="">Chọn loại xe</option>
+                    <option value="350000000" data-img="../images/car1.jpg">
+                      Toyota
+                    </option>
+                    <option value="150000000" data-img="../images/car2.jpg">
+                      KIA
+                    </option>
+                    <option value="400000000" data-img="../images/car3.jpg">
+                      Ford
+                    </option>
+                    <option value="320000000" data-img="../images/car4.jpg">
+                      Civic
+                    </option>
+                    <option value="500000000" data-img="../images/car5.jpg">
+                      Ferrari
+                    </option>
+                    <option value="450000000" data-img="../images/car7.jpg">
+                      Mercedes
+                    </option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>
+                  <input type="radio" id="gold" name="loai" />Vàng
+                  <input type="radio" id="usd" name="loai" />USD
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>
+                  <button class="btn btn-dark" id="update">Update</button>
+                  <button class="btn btn-dark" id="state" disabled>
+                    State
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="col-4">
+          <table class="table table-bordered">
+            <thead>
+              <th class="text-center">Bảng báo giá</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td id="bangBaoGia" class="text-center">
+                  <img id="hinhXe" src="" alt="Hình ảnh xe" /><br />
+                  <span id="gia">Giá: <input type="number" id="giaXe" /></span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      window.onload = function () {
+        var muaVaoInput = document.querySelector("#muaVao");
+        var banRaInput = document.querySelector("#banRa");
+        var stateButton = document.querySelector("#state");
+        var loaiXeSelect = document.querySelector("#loaiXe");
+        var bangBaoGia = document.querySelector("#bangBaoGia");
+        var hinhXe = document.querySelector("#hinhXe");
+        var giaXeInput = document.querySelector("#giaXe");
+        var updateButton = document.querySelector("#update");
+        var goldRadio = document.getElementById("gold");
+        var usdRadio = document.getElementById("usd");
+
+        muaVaoInput.addEventListener("input", function () {
+          if (this.value !== "" && banRaInput.value !== "") {
+            stateButton.disabled = false;
+          } else {
+            stateButton.disabled = true;
+          }
+        });
+
+        banRaInput.addEventListener("input", function () {
+          if (this.value !== "" && muaVaoInput.value !== "") {
+            stateButton.disabled = false;
+          } else {
+            stateButton.disabled = true;
+          }
+        });
+
+        loaiXeSelect.addEventListener("change", function () {
+          var selectedOption = this.options[this.selectedIndex];
+          var giaXe = parseInt(selectedOption.value);
+          var hinhAnhXe = selectedOption.getAttribute("data-img"); // Lấy đường dẫn hình ảnh xe từ thuộc tính data-img của option
+          hinhXe.src = hinhAnhXe; // Đặt hình ảnh cho loại xe tương ứng
+          giaXeInput.value = giaXe;
+        });
+
+        updateButton.addEventListener("click", function () {
+          var selectedOption = loaiXeSelect.options[loaiXeSelect.selectedIndex];
+          var giaXe = parseInt(giaXeInput.value);
+          if (goldRadio.checked) {
+            document.querySelector("#vangMuaVao").textContent = giaXe;
+            document.querySelector("#vangBanRa").textContent = giaXe;
+          } else if (usdRadio.checked) {
+            document.querySelector("#usdMuaVao").textContent = giaXe;
+            document.querySelector("#usdBanRa").textContent = giaXe;
+          }
+        });
+      };
+    </script>
+  </body>
+</html>
